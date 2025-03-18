@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Color Catch</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        #gameArea { margin: 20px auto; width: 400px; height: 400px; position: relative; }
+        .box { width: 100px; height: 100px; position: absolute; cursor: pointer; }
+        #score { font-size: 24px; }
+        #instruction { font-size: 20px; color: #333; }
+    </style>
+</head>
+<body>
+    <h1>Color Catch</h1>
+    <p id="score">Score: 0</p>
+    <p id="instruction">Click the <span id="targetColor">Red</span> Box!</p>
+    <div id="gameArea"></div>
+
+    <script>
+        const gameArea = document.getElementById('gameArea');
+        const scoreDisplay = document.getElementById('score');
+        const instruction = document.getElementById('targetColor');
+        let score = 0;
+
+        const colors = ['red', 'blue', 'green', 'yellow'];
+        let targetColor = colors[Math.floor(Math.random() * colors.length)];
+
+        function createBox() {
+            const box = document.createElement('div');
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            box.className = 'box';
+            box.style.backgroundColor = randomColor;
+            box.style.left = Math.random() * 300 + 'px';
+            box.style.top = Math.random() * 300 + 'px';
+            box.onclick = () => checkClick(randomColor);
+            gameArea.appendChild(box);
+        }
+
+        function checkClick(clickedColor) {
+            if (clickedColor === targetColor) {
+                score++;
+                scoreDisplay.textContent = `Score: ${score}`;
+                gameArea.innerHTML = '';
+                targetColor = colors[Math.floor(Math.random() * colors.length)];
+                instruction.textContent = targetColor.charAt(0).toUpperCase() + targetColor.slice(1);
+                for (let i = 0; i < 4; i++) createBox();
+            } else {
+                alert('Game Over! Score: ' + score);
+                score = 0;
+                scoreDisplay.textContent = `Score: ${score}`;
+                gameArea.innerHTML = '';
+                for (let i = 0; i < 4; i++) createBox();
+            }
+        }
+
+        instruction.textContent = targetColor.charAt(0).toUpperCase() + targetColor.slice(1);
+        for (let i = 0; i < 4; i++) createBox();
+    </script>
+</body>
+</html>
+<!---
+eienzen/eienzen is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+You can click the Preview link to take a look at your changes.
+--->
